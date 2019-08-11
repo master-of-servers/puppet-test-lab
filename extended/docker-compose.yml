@@ -1,0 +1,113 @@
+version: '3'
+services:
+  puppetmaster:
+    build:
+      context: ./puppetmaster/
+      dockerfile: Dockerfile
+    container_name: extended-puppetmaster
+    hostname: puppet.demo.com
+    networks:
+      extended-puppet-net:
+        ipv4_address: 172.60.0.2
+    extra_hosts:
+      - 'puppet.demo.com:172.60.0.2'
+      - 'webprod.demo.com:172.60.0.3'
+      - 'webdev.demo.com:172.60.0.4'
+      - 'prodlaptop.demo.com:172.60.0.5'
+      - 'devlaptop.demo.com:172.60.0.6'
+
+  webprod:
+    build:
+      context: ./puppetagent/
+      dockerfile: Dockerfile
+    container_name: webprod
+    hostname: webprod.demo.com
+    stdin_open: true
+    tty: true
+    networks:
+      extended-puppet-net:
+        ipv4_address: 172.60.0.3
+    ports:
+      - "127.0.0.1:80:80"
+    extra_hosts:
+      - 'puppet.demo.com:172.60.0.2'
+      - 'webprod.demo.com:172.60.0.3'
+      - 'webdev.demo.com:172.60.0.4'
+      - 'prodlaptop.demo.com:172.60.0.5'
+      - 'devlaptop.demo.com:172.60.0.6'
+      - 'mysql.demo.com:172.60.0.7'
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: V3ryS3cr3T!
+    networks:
+      extended-puppet-net:
+        ipv4_address: 172.60.0.7
+
+  webdev:
+    build:
+      context: ./puppetagent/
+      dockerfile: Dockerfile
+    container_name: webdev
+    hostname: webdev.demo.com
+    stdin_open: true
+    tty: true
+    networks:
+      extended-puppet-net:
+        ipv4_address: 172.60.0.4
+    ports:
+      - "127.0.0.1:8080:8080"
+    extra_hosts:
+      - 'puppet.demo.com:172.60.0.2'
+      - 'webprod.demo.com:172.60.0.3'
+      - 'webdev.demo.com:172.60.0.4'
+      - 'prodlaptop.demo.com:172.60.0.5'
+      - 'devlaptop.demo.com:172.60.0.6'
+
+  prodlaptop:
+    build:
+      context: ./puppetagent/
+      dockerfile: Dockerfile
+    container_name: prodlaptop
+    hostname: prodlaptop.demo.com
+    stdin_open: true
+    tty: true
+    networks:
+      extended-puppet-net:
+        ipv4_address: 172.60.0.5
+    extra_hosts:
+      - 'puppet.demo.com:172.60.0.2'
+      - 'webprod.demo.com:172.60.0.3'
+      - 'webdev.demo.com:172.60.0.4'
+      - 'prodlaptop.demo.com:172.60.0.5'
+      - 'devlaptop.demo.com:172.60.0.6'
+
+  devlaptop:
+    build:
+      context: ./puppetagent/
+      dockerfile: Dockerfile
+    container_name: devlaptop
+    hostname: devlaptop.demo.com
+    stdin_open: true
+    tty: true
+    networks:
+      extended-puppet-net:
+        ipv4_address: 172.60.0.6
+    extra_hosts:
+      - 'puppet.demo.com:172.60.0.2'
+      - 'webprod.demo.com:172.60.0.3'
+      - 'webdev.demo.com:172.60.0.4'
+      - 'prodlaptop.demo.com:172.60.0.5'
+      - 'devlaptop.demo.com:172.60.0.6'
+      - 'mysql.demo.com:172.60.0.7'
+
+networks:
+  extended-puppet-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.60.0.0/24

@@ -1,0 +1,35 @@
+version: '3'
+services:
+  puppetmaster:
+    build:
+      context: ./puppetmaster
+      dockerfile: Dockerfile
+    container_name: basic-puppetmaster
+    hostname: puppet.demo.com
+    networks:
+      basic-puppet-net:
+        ipv4_address: 172.40.0.2
+    extra_hosts:
+      - 'agent.demo.com:172.40.0.3'
+
+  puppetagent:
+    build:
+      context: ./puppetagent
+      dockerfile: Dockerfile
+    container_name: basic-puppetagent
+    hostname: agent.demo.com
+    stdin_open: true
+    tty: true
+    networks:
+      basic-puppet-net:
+        ipv4_address: 172.40.0.3
+    extra_hosts:
+      - 'puppet.demo.com:172.40.0.2'
+
+networks:
+  basic-puppet-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.40.0.0/24

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  puppetmaster:
+    build:
+      context: ./puppetmaster
+      dockerfile: Dockerfile
+    container_name: massagents-puppetmaster
+    hostname: puppet.demo.com
+    networks:
+      massagents-puppet-net:
+        ipv4_address: 172.30.0.254

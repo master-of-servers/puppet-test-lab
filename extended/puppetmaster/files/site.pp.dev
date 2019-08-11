@@ -1,0 +1,47 @@
+# # All other systems are dev machines in the dev environment
+node default {
+  $pkgs = [
+    'gcc',
+    'make',
+    'nodejs',
+  ]
+
+  exec {"Setup node.js repo":
+    path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    command => "curl -sL https://rpm.nodesource.com/setup_10.x | bash -",
+  } ->
+
+  package { $pkgs:
+     ensure => 'latest',
+  }
+}
+
+node "webdev.demo.com" {
+  $pkgs = [
+    'httpd',
+    'httpd-tools',
+  ]
+
+  package { $pkgs:
+    ensure => 'latest',
+  } ->
+
+  class { '::webfiles':} ->
+
+  file_line { 'Set web server port':
+    ensure => present,
+    path   => '/etc/httpd/conf/httpd.conf',
+    line   => 'Listen 8080',
+    match  => 'Listen 80',
+  } ->
+
+  exec { 'Run website':
+    path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    command => 'httpd -D FOREGOUND',
+  }
+
+  exec { 'Install mysql':
+    path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+    command => 'yum -y install mariadb-server',
+  }
+}
