@@ -7,7 +7,7 @@ RUN apt-get update && \
       mkdir -p /etc/puppetlabs/code/environments/production/modules/hello_world/manifests && \
       mkdir /etc/eyaml && \
       # Install and configure eyaml
-      puppetserver gem install hiera-eyaml && \
+      puppetserver gem install hiera-eyaml --no-document && \
       cd /etc/puppetlabs/puppet/ && \
       eyaml createkeys && \
       mv keys eyaml
