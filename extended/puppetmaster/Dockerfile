@@ -9,7 +9,7 @@ RUN apt-get update && \
       cp -r /etc/puppetlabs/code/environments/production/ \
       /etc/puppetlabs/code/environments/development && \
       # Install and configure eyaml
-      puppetserver gem install hiera-eyaml && \
+      puppetserver gem install hiera-eyaml --no-document && \
       cd /etc/puppetlabs/puppet/ && \
       eyaml createkeys && \
       mv keys eyaml
