@@ -28,7 +28,7 @@ services:
       extended-puppet-net:
         ipv4_address: 172.60.0.3
     ports:
-      - "127.0.0.1:80:80"
+      - "80:80"
     extra_hosts:
       - 'puppet.demo.com:172.60.0.2'
       - 'webprod.demo.com:172.60.0.3'
