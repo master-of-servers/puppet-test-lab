@@ -1,5 +1,6 @@
 # puppet-test-lab
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/master-of-servers/puppet-test-lab/blob/master/LICENSE)
+[![Build Status](https://dev.azure.com/jaysonegrace/puppet-test-lab/_apis/build/status/master-of-servers.puppet-test-lab?branchName=master)](https://dev.azure.com/jaysonegrace/puppet-test-lab/_build/latest?definitionId=32&branchName=master)
 
 Create test labs which can be used to play around with MOSE and Puppet.
 
