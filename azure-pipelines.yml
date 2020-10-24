@@ -26,8 +26,7 @@ steps:
   displayName: 'Build and configure the basic puppet test environment'
 
 - script: | 
-    docker-compose stop
-    docker-compose rm -f
+    docker-compose down -v
   displayName: 'Tear down the basic puppet test environment'
   workingDirectory: puppet-test-lab/basic
 
@@ -41,7 +40,6 @@ steps:
   displayName: 'Build and configure the extended puppet test environment'
 
 - script: | 
-    docker-compose stop
-    docker-compose rm -f
+    docker-compose down -v
   displayName: 'Tear down the extended puppet test environment'
   workingDirectory: puppet-test-lab/extended
